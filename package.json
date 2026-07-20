@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "postinstall": "chmod -R +x node_modules/.bin",
+    "build": "node node_modules/typescript/bin/tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
   },
+  
   "dependencies": {
     "@supabase/supabase-js": "^2.110.7",
     "astronomy-engine": "^2.1.19",
