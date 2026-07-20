@@ -34,6 +34,7 @@ const THEME_HEX = {
   sage:      { bg: '#E4E7DD', ink: '#262B22', muted: '#7C8873', line: '#CBD1C0', star: '#7C8A5E' },
   dustyblue: { bg: '#DCE2E6', ink: '#222A2E', muted: '#6E7F87', line: '#C0CBD1', star: '#5E7A8A' },
   burgundy:  { bg: '#241417', ink: '#E9DFDD', muted: '#A98D8F', line: '#3E262B', star: '#A65E6A' },
+  midnightcopper: { bg: '#0F1730', ink: '#E7E2D6', muted: '#8B93AC', line: '#26304F', star: '#C66218' },
 };
 
 function themeToCmyk(themeName) {

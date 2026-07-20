@@ -24,8 +24,9 @@ export const THEMES: Record<ThemeName, ThemeTokens> = {
   sage:      { label: 'Sage',       bg: '#E4E7DD', ink: '#262B22', muted: '#7C8873', line: '#CBD1C0', star: '#7C8A5E' },
   dustyblue: { label: 'Dusty blue', bg: '#DCE2E6', ink: '#222A2E', muted: '#6E7F87', line: '#C0CBD1', star: '#5E7A8A' },
   burgundy:  { label: 'Burgundy',   bg: '#241417', ink: '#E9DFDD', muted: '#A98D8F', line: '#3E262B', star: '#A65E6A' },
+  midnightcopper: { label: 'Midnight copper', bg: '#0F1730', ink: '#E7E2D6', muted: '#8B93AC', line: '#26304F', star: '#C66218' },
 };
 
 export const THEME_ORDER: ThemeName[] = [
-  'ivory', 'charcoal', 'forest', 'navy', 'warmgrey', 'sand', 'sage', 'dustyblue', 'burgundy',
+  'ivory', 'charcoal', 'forest', 'navy', 'warmgrey', 'sand', 'sage', 'dustyblue', 'burgundy', 'midnightcopper',
 ];

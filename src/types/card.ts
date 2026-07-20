@@ -7,7 +7,8 @@ export type ThemeName =
   | 'sand'
   | 'sage'
   | 'dustyblue'
-  | 'burgundy';
+  | 'burgundy'
+  | 'midnightcopper';
 
 export interface BirthLocation {
   /** Display label, e.g. "Kyoto, Japan" */
