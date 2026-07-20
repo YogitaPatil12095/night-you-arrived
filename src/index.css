@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap');
+@import "tailwindcss";
+
+:root {
+  --app-bg: #EAE7E0;
+  --app-panel-bg: #FFFFFF;
+  --app-border: #DCD8CE;
+  --app-input-bg: #FAF8F3;
+  --app-input-border: #D5D0C4;
+  --app-text: #201E1A;
+  --app-muted: #8C8574;
+  --app-btn-bg: #201E1A;
+  --app-btn-text: #F7F4EC;
+}
+
+[data-appmode='dark'] {
+  --app-bg: #171614;
+  --app-panel-bg: #211F1C;
+  --app-border: #3A362F;
+  --app-input-bg: #2A2823;
+  --app-input-border: #423E36;
+  --app-text: #EDE9E0;
+  --app-muted: #948C79;
+  --app-btn-bg: #EDE9E0;
+  --app-btn-text: #201E1A;
+}
+
+body {
+  margin: 0;
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-family: 'Zen Kaku Gothic New', sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+input {
+  font-family: inherit;
+  font-size: 13px;
+  padding: 8px 10px;
+  border: 1px solid var(--app-input-border);
+  background: var(--app-input-bg);
+  color: var(--app-text);
+  width: 100%;
+  box-sizing: border-box;
+}
+input:focus {
+  outline: 1px solid var(--app-text);
+}
+
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+  /* visibility:hidden still occupies layout space, so without this the
+     invisible form/preview column left the page as tall as the full
+     create-card screen, producing extra blank pages after the card. */
+  html, body {
+    height: 580px;
+    overflow: hidden;
+    margin: 0;
+  }
+  body * {
+    visibility: hidden;
+  }
+  body[data-print-side='front'] #print-front,
+  body[data-print-side='front'] #print-front * {
+    visibility: visible;
+  }
+  body[data-print-side='back'] #print-back,
+  body[data-print-side='back'] #print-back * {
+    visibility: visible;
+  }
+  #print-front,
+  #print-back {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+  }
+  @page {
+    size: auto;
+    margin: 0;
+  }
+}
