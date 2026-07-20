@@ -15,9 +15,10 @@ const VIEW = 288; // sky viewBox size, square
 export default function CardBack({ data, sky, showLabels = false }: Props) {
   const t = THEMES[data.theme];
   const constellations = visibleConstellations(sky, 3);
+  const publicUrl = (import.meta.env.VITE_PUBLIC_URL as string | undefined) || window.location.origin;
   const shareUrl = data.shareCode
-    ? `https://nightyouarrived.com/night/${data.shareCode}`
-    : 'https://nightyouarrived.com/night/preview';
+    ? `${publicUrl}/night/${data.shareCode}`
+    : `${publicUrl}/night/preview`;
 
   return (
     <div

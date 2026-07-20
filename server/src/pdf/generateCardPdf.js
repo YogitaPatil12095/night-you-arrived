@@ -214,7 +214,8 @@ async function generateCardPdf(card) {
 
   // QR code, embedded as a crisp raster image sized well above print resolution
   const shareCode = card.shareCode || 'PREVIEW';
-  const shareUrl = `https://nightyouarrived.com/night/${shareCode}`;
+  const publicUrl = (process.env.PUBLIC_URL || 'https://starsaga.netlify.app').replace(/\/+$/, '');
+  const shareUrl = `${publicUrl}/night/${shareCode}`;
   const qrPngBuffer = await QRCode.toBuffer(shareUrl, { width: 600, margin: 0, color: { dark: '#000000', light: '#00000000' } });
   const qrSizePt = 46;
   doc.image(qrPngBuffer, edges.safeArea.x + edges.safeArea.w - qrSizePt, edges.trim.y + edges.trim.h - 96 + 6, {
