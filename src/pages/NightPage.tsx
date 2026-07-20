@@ -30,20 +30,37 @@ export default function NightPage() {
   const { code } = useParams<{ code: string }>();
   const [data, setData] = useState<CardData | null>(null);
   const [sky, setSky] = useState<SkyResult | null>(null);
-  const [status, setStatus] = useState<'loading' | 'found' | 'missing'>('loading');
+  const [status, setStatus] = useState<'loading' | 'found' | 'missing' | 'error'>('loading');
   const [stage, setStage] = useState<Stage>('loading');
 
   useEffect(() => {
     if (!code) return;
-    getCardByShareCode(code).then((card) => {
-      if (!card) {
-        setStatus('missing');
-        return;
-      }
-      setData(card);
-      setSky(computeSky(resolveObservationMoment(card), card.location));
-      setStatus('found');
-    });
+    let cancelled = false;
+
+    getCardByShareCode(code)
+      .then((card) => {
+        if (cancelled) return;
+        if (!card) {
+          setStatus('missing');
+          return;
+        }
+        // computeSky/resolveObservationMoment can throw synchronously (e.g. a
+        // malformed birth_date on this row) -- catch that here too, not just
+        // rejections from getCardByShareCode, so a bad row never leaves the
+        // page stuck on "Loading the sky..." forever.
+        setData(card);
+        setSky(computeSky(resolveObservationMoment(card), card.location));
+        setStatus('found');
+      })
+      .catch((err) => {
+        if (cancelled) return;
+        console.error(`Failed to load card "${code}":`, err);
+        setStatus('error');
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [code]);
 
   // staged reveal, advancing automatically -- loading -> birth date -> sky -> full content
@@ -58,6 +75,9 @@ export default function NightPage() {
 
   if (status === 'loading') {
     return <CenteredMessage>Loading the sky…</CenteredMessage>;
+  }
+  if (status === 'error') {
+    return <CenteredMessage>Something went wrong loading this card. Please try again later.</CenteredMessage>;
   }
   if (status === 'missing' || !data || !sky) {
     return <CenteredMessage>This card couldn't be found.</CenteredMessage>;
