@@ -13,12 +13,26 @@ export function resolveObservationMoment(data: Pick<CardData, 'birthDate' | 'bir
     throw new Error(`Missing or invalid birth date: ${JSON.stringify(data.birthDate)}`);
   }
 
-  const time = data.birthTime || '12:00';
-  const date = new Date(`${data.birthDate}T${time}:00`);
+  const time = normalizeTime(data.birthTime);
+  const date = new Date(`${data.birthDate}T${time}`);
 
   if (Number.isNaN(date.getTime())) {
-    throw new Error(`Could not parse birth date/time: "${data.birthDate}T${time}:00"`);
+    throw new Error(`Could not parse birth date/time: "${data.birthDate}T${time}"`);
   }
 
   return date;
+}
+
+/**
+ * birthTime can arrive as "HH:MM" (the format the create-card form uses) or
+ * as "HH:MM:SS" (e.g. Postgres's `time` type often round-trips with seconds
+ * included). Normalize to a full "HH:MM:SS" string so we never blindly
+ * append our own ":00" onto a value that already has seconds.
+ */
+function normalizeTime(raw?: string): string {
+  if (!raw) return '12:00:00';
+  const parts = raw.split(':');
+  if (parts.length === 2) return `${raw}:00`;
+  if (parts.length === 3) return raw;
+  throw new Error(`Unrecognized birth time format: ${JSON.stringify(raw)}`);
 }
